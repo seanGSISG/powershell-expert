@@ -8,6 +8,7 @@ A Claude Code skill for developing PowerShell scripts, tools, modules, and GUIs 
 - **GUI Development** - Windows Forms and WPF/XAML patterns with 15+ control examples
 - **PowerShell Gallery Integration** - Search, install, and manage modules via PSResourceGet
 - **Module Recommendations** - Curated list of popular modules by category
+- **Live Verification** - Validates module availability and cmdlet syntax against live documentation
 
 ## Installation
 
@@ -40,6 +41,18 @@ The skill activates automatically when you ask Claude Code to:
 "What module should I use for working with Excel files?"
 "Help me add proper error handling to this script"
 ```
+
+### Live Verification
+
+When accuracy is critical, the skill verifies information against live sources:
+
+| Verification Type | Source |
+|-------------------|--------|
+| Module exists/active | PowerShell Gallery |
+| Cmdlet syntax | Microsoft Docs |
+| Version requirements | Gallery metadata |
+
+This ensures module recommendations aren't deprecated and cmdlet parameters are current.
 
 ## Skill Contents
 
