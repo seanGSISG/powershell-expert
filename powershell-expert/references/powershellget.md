@@ -231,7 +231,7 @@ Save-PSResource -Name 'Az' -Path 'C:\OfflineModules' -IncludeXml
 
 ### Publish
 ```powershell
-# Get API key from powershellgallery.com/account/apikeys
+# Get API key from https://www.powershellgallery.com/account/apikeys
 $apiKey = 'your-api-key'
 
 # Publish module

@@ -1,6 +1,6 @@
 ---
 name: powershell-expert
-description: Develop PowerShell scripts, tools, modules, and GUIs following Microsoft best practices. Use when writing PowerShell code, creating Windows Forms/WPF interfaces, working with PowerShell Gallery modules, or needing cmdlet/module recommendations. Covers script development, parameter design, pipeline handling, error management, and GUI creation patterns.
+description: Develop PowerShell scripts, tools, modules, and GUIs following Microsoft best practices. Use when writing PowerShell code, creating Windows Forms/WPF interfaces, working with PowerShell Gallery modules, or needing cmdlet/module recommendations. Covers script development, parameter design, pipeline handling, error management, and GUI creation patterns. Verifies module availability and cmdlet syntax against live documentation when accuracy is critical.
 ---
 
 # PowerShell Expert
@@ -172,6 +172,40 @@ When recommending modules, search the PowerShell Gallery:
 | **Secrets** | `Microsoft.PowerShell.SecretManagement` |
 | **Web** | `Pode` (web server), `PoshRSJob` (async) |
 | **GUI** | `WPFBot3000`, `PSGUI` |
+
+## Live Verification
+
+Use WebFetch and WebSearch to verify accuracy when:
+- **Recommending modules** - Confirm they exist and are actively maintained
+- **Citing cmdlet syntax** - Verify parameters haven't changed
+- **Checking version requirements** - Confirm compatibility information
+
+### Verify Module Exists
+```
+WebFetch: https://www.powershellgallery.com/packages/{ModuleName}
+Prompt: "Extract module name, latest version, last updated date, total downloads, and whether it's deprecated or unlisted"
+```
+
+### Verify Cmdlet Syntax
+```
+WebFetch: https://learn.microsoft.com/en-us/powershell/module/{module}/{cmdlet-name}
+Prompt: "Extract the cmdlet syntax, required parameters, and any version requirements"
+```
+
+### Search for Current Information
+```
+WebSearch: "PowerShell {topic} site:learn.microsoft.com"
+WebSearch: "PSResourceGet {cmdlet} 2024" (for recent changes)
+```
+
+### When to Verify
+| Scenario | Action |
+|----------|--------|
+| User asks "does module X exist?" | Always verify via WebFetch |
+| Recommending a specific module | Verify it's not deprecated |
+| Providing exact cmdlet syntax | Verify against current docs |
+| Module version requirements | Check gallery for latest version |
+| General best practices | Static references are sufficient |
 
 ## Documentation Resources
 
