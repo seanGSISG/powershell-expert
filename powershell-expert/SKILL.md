@@ -177,6 +177,10 @@ When recommending modules, search the PowerShell Gallery:
 
 You MUST verify information against live sources when accuracy is critical. Do not rely solely on training data for module availability or cmdlet syntax.
 
+**Tools to use:**
+- **WebFetch**: Retrieve and parse specific documentation URLs (PowerShell Gallery pages, Microsoft Docs)
+- **WebSearch**: Find correct URLs when the exact path is unknown or to verify module existence
+
 ### When Verification is Required
 
 | Scenario | Action |
@@ -189,35 +193,28 @@ You MUST verify information against live sources when accuracy is critical. Do n
 
 ### Step 1: Verify Module on PowerShell Gallery
 
-When recommending or checking a module, fetch its gallery page:
+When recommending or checking a module, **use the WebFetch tool** to verify it exists:
 
-```
-URL: https://www.powershellgallery.com/packages/{ModuleName}
-Prompt: "Extract: module name, latest version, last updated date, total downloads,
-        and whether it shows any deprecation warning or 'unlisted' status"
-```
+**WebFetch call:**
+- **URL**: `https://www.powershellgallery.com/packages/{ModuleName}`
+- **Prompt**: `Extract: module name, latest version, last updated date, total downloads, and whether it shows any deprecation warning or 'unlisted' status`
 
-**If WebFetch returns 404 or error**: The module likely doesn't exist. Use WebSearch to confirm:
-```
-Query: "{ModuleName} PowerShell module site:powershellgallery.com"
-```
+**If WebFetch returns 404 or error**: The module likely doesn't exist. **Use the WebSearch tool** to confirm:
+- **Query**: `{ModuleName} PowerShell module site:powershellgallery.com`
 
 ### Step 2: Verify Cmdlet Syntax (When Needed)
 
-Microsoft Docs URLs vary by module. Use WebSearch to find the correct documentation page:
+Microsoft Docs URLs vary by module. **Use the WebSearch tool** to find the correct documentation page:
 
-```
-Query: "{Cmdlet-Name} cmdlet site:learn.microsoft.com/en-us/powershell"
-```
+**WebSearch call:**
+- **Query**: `{Cmdlet-Name} cmdlet site:learn.microsoft.com/en-us/powershell`
 
-Then fetch the returned URL to extract:
-- Complete syntax with all parameter sets
-- Required vs optional parameters
-- PowerShell version requirements
+**Then use WebFetch** on the returned URL with prompt:
+- **Prompt**: `Extract the complete cmdlet syntax, required vs optional parameters, and PowerShell version requirements`
 
 ### Step 3: Fallback Strategies
 
-If WebFetch/WebSearch are unavailable or fail:
+If the WebFetch or WebSearch tools are unavailable or return errors:
 
 1. **For module verification**: Execute `Search-Gallery.ps1` from this skill:
    ```powershell
