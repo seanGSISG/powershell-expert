@@ -1,5 +1,9 @@
 # PowerShell Expert Skill
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20|%20PowerShell%207+-blue.svg)](https://github.com/PowerShell/PowerShell)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-blueviolet.svg)](https://claude.ai/code)
+
 A Claude Code skill for developing PowerShell scripts, tools, modules, and GUIs following Microsoft best practices.
 
 ## Features
