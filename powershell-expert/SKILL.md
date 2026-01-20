@@ -1,6 +1,6 @@
 ---
 name: powershell-expert
-description: Develop PowerShell scripts, tools, modules, and GUIs following Microsoft best practices. Use when writing PowerShell code, creating Windows Forms/WPF interfaces, working with PowerShell Gallery modules, or needing cmdlet/module recommendations. Covers script development, parameter design, pipeline handling, error management, and GUI creation patterns. Verifies module availability and cmdlet syntax against live documentation when accuracy is critical.
+description: Develop PowerShell scripts, tools, modules, and GUIs following Microsoft best practices. Use when writing PowerShell code, creating Windows Forms/WPF interfaces, working with PowerShell Gallery modules, or needing cmdlet/module recommendations. Covers script development, parameter design, pipeline handling, error management, and logging. Verifies module availability and cmdlet syntax against live documentation when accuracy is critical.
 ---
 
 # PowerShell Expert
@@ -83,23 +83,7 @@ Follow naming and parameter conventions:
 
 See [best-practices.md](references/best-practices.md) for complete guidelines.
 
-### 2. GUI Development
-Windows Forms for simple dialogs, WPF/XAML for complex interfaces:
-
-```powershell
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
-
-$form = New-Object System.Windows.Forms.Form -Property @{
-    Text          = 'Title'
-    Size          = New-Object System.Drawing.Size(400, 300)
-    StartPosition = 'CenterScreen'
-}
-```
-
-See [gui-development.md](references/gui-development.md) for controls, events, and templates.
-
-### 3. PowerShell Gallery Integration
+### 2. PowerShell Gallery Integration
 Search and install modules using PSResourceGet:
 
 ```powershell
@@ -166,20 +150,21 @@ When recommending modules, search the PowerShell Gallery:
 
 | Category | Popular Modules |
 |----------|----------------|
-| **Azure** | `Az`, `Az.Compute`, `Az.Storage` |
+| **Azure** | `Az`, `Az.Compute`, `Az.Storage`, `Az.Accounts` |
+| **Entra** | `Microsoft.Graph`, `ExchangeOnlineManagement`, `Microsoft.Entra` |
 | **Testing** | `Pester`, `PSScriptAnalyzer` |
 | **Console** | `PSReadLine`, `Terminal-Icons` |
-| **Secrets** | `Microsoft.PowerShell.SecretManagement` |
+| **Secrets** | `Az.KeyVault`, `Microsoft.PowerShell.SecretManagement` |
 | **Web** | `Pode` (web server), `PoshRSJob` (async) |
-| **GUI** | `WPFBot3000`, `PSGUI` |
+
 
 ## Live Verification
 
 You MUST verify information against live sources when accuracy is critical. Do not rely solely on training data for module availability or cmdlet syntax.
 
 **Tools to use:**
-- **WebFetch**: Retrieve and parse specific documentation URLs (PowerShell Gallery pages, Microsoft Docs)
-- **WebSearch**: Find correct URLs when the exact path is unknown or to verify module existence
+- **microsoft-docs Plugin and microsoft-learn MCP**: Retrieve and parse specific documentation with your builtin microsoft-docs skill and microsoft-learn mcp tool
+- **context7**: Utilize Context7 mcp tool for further documentation context
 
 ### When Verification is Required
 
@@ -199,37 +184,26 @@ When recommending or checking a module, **use the WebFetch tool** to verify it e
 - **URL**: `https://www.powershellgallery.com/packages/{ModuleName}`
 - **Prompt**: `Extract: module name, latest version, last updated date, total downloads, and whether it shows any deprecation warning or 'unlisted' status`
 
-**If WebFetch returns 404 or error**: The module likely doesn't exist. **Use the WebSearch tool** to confirm:
-- **Query**: `{ModuleName} PowerShell module site:powershellgallery.com`
+**If WebFetch returns 404 or error**: The module likely doesn't exist. **Use the microsoft-learn mcp** to confirm
 
 ### Step 2: Verify Cmdlet Syntax (When Needed)
 
-Microsoft Docs URLs vary by module. **Use the WebSearch tool** to find the correct documentation page:
-
-**WebSearch call:**
-- **Query**: `{Cmdlet-Name} cmdlet site:learn.microsoft.com/en-us/powershell`
-
-**Then use WebFetch** on the returned URL with prompt:
-- **Prompt**: `Extract the complete cmdlet syntax, required vs optional parameters, and PowerShell version requirements`
+- Use microsoft-docs, microsoft-learn, context7 when needed
 
 ### Step 3: Fallback Strategies
 
-If the WebFetch or WebSearch tools are unavailable or return errors:
+If the WebFetch or WebSearch or other tools are unavailable or return errors:
 
 1. **For module verification**: Execute `Search-Gallery.ps1` from this skill:
    ```powershell
    ~/.claude/skills/powershell-expert/scripts/Search-Gallery.ps1 -Name 'ModuleName'
    ```
 
-2. **For cmdlet syntax**: Suggest the user run locally:
+2. **For cmdlet syntax**:
    ```powershell
    Get-Help Cmdlet-Name -Full
    Get-Command Cmdlet-Name -Syntax
    ```
-
-3. **Clearly state uncertainty**: If verification fails, tell the user:
-   > "I wasn't able to verify this against live documentation. Please confirm
-   > the module exists by running: `Find-PSResource -Name 'ModuleName'`"
 
 ### Verification Examples
 
